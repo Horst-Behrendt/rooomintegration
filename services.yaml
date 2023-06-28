@@ -1,0 +1,19 @@
+services:
+
+  _defaults:
+    public: false
+    autowire: true
+    bind:
+      OxidEsales\Eshop\Core\Request: '@=service("OxidEsales\\ModuleTemplate\\Core\\Registry").getRequest()'
+
+  OxidEsales\ModuleTemplate\Core\Registry:
+    class: OxidEsales\Eshop\Core\Registry
+    public: true
+
+  OxidEsales\ModuleTemplate\Service\:
+    resource: 'src/Service/*'
+    public: true
+
+  OxidEsales\ModuleTemplate\Subscriber\BeforeModelUpdate:
+    class: OxidEsales\ModuleTemplate\Subscriber\BeforeModelUpdate
+    tags: [ 'kernel.event_subscriber' ]
