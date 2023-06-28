@@ -1,5 +1,5 @@
 {
-    "name": "oxid-esales/module-template",
+    "name": "SmartCommerceSE/rooomintegration",
     "description": "",
     "type": "oxideshop-module",
     "keywords": [
@@ -29,8 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "OxidEsales\\ModuleTemplate\\": "src/",
-            "OxidEsales\\ModuleTemplate\\Tests\\": "tests/"
+            "SmartCommerceSE\\RooomIntgration[D[D[D[D[D[De\\": "src/",
+            "SmartCommerceSE\\RooomIntgration[D[D[D[D[D[De\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -54,7 +54,7 @@
         "tests-integration": "XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap=/var/www/source/bootstrap.php --config=tests/ --testsuite=Integration",
         "tests-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --bootstrap=/var/www/source/bootstrap.php --config=tests/ --coverage-html=tests/result/coverage",
 
-        "tests-codeception": "(cd /var/www/ && THEME_ID=apex MODULE_IDS=oe_moduletemplate /var/www/vendor/bin/codecept run acceptance -c /var/www/vendor/oxid-esales/module-template/tests/codeception.yml -g oe_moduletemplate)",
+        "tests-codeception": "(cd /var/www/ && THEME_ID=apex MODULE_IDS=oxid_rooomintegration /var/www/vendor/bin/codecept run acceptance -c /var/www/vendor/SmartCommerceSE/rooomintegration/tests/codeception.yml -g oxid_rooomintegration)",
 
         "tests-all": [
             "@tests-unit",

@@ -44,11 +44,11 @@ modules:
           - Db
     - \OxidEsales\Codeception\Module\Translation\TranslationsModule:
         shop_path: '%SHOP_SOURCE_PATH%'
-        paths:
+        paths: "Application/views/flow/translations,Application/views/admin"
           - Application/views/apex
           - Application/views/admin_twig
-          - ../vendor/oxid-esales/module-template/views/admin_twig
-          - ../vendor/oxid-esales/module-template/translations
+          - ../vendor/SmartCommerceSE/rooomintegration/views/admin_twig
+          - ../vendor/SmartCommerceSE/rooomintegration/translations
     - \OxidEsales\Codeception\Module\OxideshopModules
 step_decorators:
     - \Codeception\Step\Retry

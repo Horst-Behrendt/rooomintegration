@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © OXID eSales AG. All rights reserved.
+ * Copyright © Smar Commerce SE[D[D[D[D[D[D[D[D[D[D[D[Dt Commerce SE. All rights reserved.
  * See LICENSE file for license details.
  */
 

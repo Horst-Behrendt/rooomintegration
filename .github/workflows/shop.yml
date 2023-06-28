@@ -3,8 +3,8 @@ name: Shop tests with a module
 on: workflow_dispatch
 
 env:
-  PACKAGE_NAME: 'oxid-esales/module-template'
-  MODULE_IDS: 'oe_moduletemplate'
+  PACKAGE_NAME: 'SmartCommerceSE/rooomintegration'
+  MODULE_IDS: 'oxid_rooomintegration'
 
 jobs:
   install_shop_with_module:
@@ -88,7 +88,7 @@ jobs:
           docker-compose exec -T php composer update --no-interaction
           docker-compose exec -T php bin/oe-console oe:database:reset \
             --db-host=mysql --db-port=3306 --db-name=example --db-user=root --db-password=root --force
-          docker-compose exec -T php bin/oe-console oe:module:activate oe_moduletemplate
+          docker-compose exec -T php bin/oe-console oe:module:activate oxid_rooomintegration
 
       - name: Stop containers
         run: |

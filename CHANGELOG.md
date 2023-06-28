@@ -1,4 +1,4 @@
-# Change Log for OXID eShop Module Template
+# Change Log for SmartCommerceSE/rooomintegration[D[D[D[D[D[D[D[D[D[D[D[D[D[D[R[C[C[C[C[I SmartCommerceSE/rooomintegration[D[D[D[D[D[D[D[D[D[D[D[D[D[D[R[C[C[C[C[I
 
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)

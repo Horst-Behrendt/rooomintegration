@@ -1,4 +1,4 @@
 table_storage:
-  table_name: oxmigrations_oe_moduletemplate
+  table_name: oxmigrations_oxid_rooomintegration
 migrations_paths:
-  'OxidEsales\ModuleTemplate\Migrations': data
+  'SmartCommerceSE\RooomIntgration[D[D[D[D[D[De\Migrations': data

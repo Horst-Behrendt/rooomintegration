@@ -14,7 +14,7 @@ on:
         default: 'both'
       module_codecept_test_group:
         type: string
-        default: 'oe_moduletemplate'
+        default: 'oxid_rooomintegration'
       report_sonarcloud:
         type: boolean
         default: false
@@ -49,7 +49,7 @@ on:
       module_codecept_test_group:
         description: 'Module codeception test group'
         required: true
-        default: 'oe_moduletemplate'
+        default: 'oxid_rooomintegration'
         type: string
       report_sonarcloud:
         description: 'Trigger sonarcloud analize?'
@@ -58,10 +58,10 @@ on:
         type: boolean
 
 env:
-  PACKAGE_NAME: 'oxid-esales/module-template'
-  MODULE_IDS: 'oe_moduletemplate'
-  SONARCLOUD_ORGANIZATION: 'oxid-esales'
-  SONARCLOUD_PROJECT_KEY: 'OXID-eSales_module-template'
+  PACKAGE_NAME: 'SmartCommerceSE/rooomintegration'
+  MODULE_IDS: 'oxid_rooomintegration'
+  SONARCLOUD_ORGANIZATION: 'CHANGE SONARCLOUD ORGANIZATION'
+  SONARCLOUD_PROJECT_KEY: 'CHANGE SONARCLOUD PROJECT KEY'
 
 jobs:
   install_shop_with_module:
@@ -138,7 +138,7 @@ jobs:
           docker-compose exec -T php composer update --no-interaction
           docker-compose exec -T php bin/oe-console oe:database:reset \
             --db-host=mysql --db-port=3306 --db-name=example --db-user=root --db-password=root --force
-          docker-compose exec -T php bin/oe-console oe:module:activate oe_moduletemplate
+          docker-compose exec -T php bin/oe-console oe:module:activate oxid_rooomintegration
 
       - name: Stop containers
         run: |
