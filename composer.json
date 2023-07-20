@@ -29,8 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SmartCommerceSE\\RooomIntgration[D[D[D[D[D[De\\": "src/",
-            "SmartCommerceSE\\RooomIntgration[D[D[D[D[D[De\\Tests\\": "tests/"
+            "SmartCommerceSE\\RooomIntgration\\": "src/",
+            "SmartCommerceSE\\RooomIntgration\\Tests\\": "tests/"
         }
     },
     "scripts": {
