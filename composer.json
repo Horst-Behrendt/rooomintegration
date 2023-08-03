@@ -29,8 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SmartCommerceSE\\RooomIntgration\\": "src/",
-            "SmartCommerceSE\\RooomIntgration\\Tests\\": "tests/"
+            "SmartCommerceSE\\RooomIntegration\\": "src/",
+           
         }
     },
     "scripts": {
