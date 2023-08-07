@@ -5,6 +5,7 @@
  * See LICENSE file for license details.
  */
 
+use SmartCommerceSE\RooomIntegration\Controller\Admin\ArticleRooom;
 /**
  * Metadata version
  */
