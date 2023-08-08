@@ -18,7 +18,7 @@ use OxidEsales\Eshop\Core\TableViewNameGenerator;
  * title, article No., short Description and etc.).
  * Admin Menu: Manage Products -> Articles -> Main.
  */
-class ArticleRooom extends ArticleRooom_parent
+class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminDetailsController
 {
     /**
      * Loads article information - pictures, passes data to template engine
