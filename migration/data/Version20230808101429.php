@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\ModuleTemplate\Migrations;
+namespace SmartCommerceSE\RooomIntegration\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -15,7 +15,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220309101429 extends AbstractMigration
+final class Version20230808101429 extends AbstractMigration
 {
     //The migration done here extends the shop's oxuser table by a new field
     //NOTE: write migrations so that they can be run multiple times without breaking anything.
@@ -25,14 +25,14 @@ final class Version20220309101429 extends AbstractMigration
         $this->connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
         //extend the oxuser table
-        $customerTable = $schema->getTable('oxuser');
+        $customerTable = $schema->getTable('oxarticles');
         if (!$customerTable->hasColumn('R3DURL')) {
-            $this->addSql("ALTER TABLE `oxuser` ADD COLUMN `R3DURL`
+            $this->addSql("ALTER TABLE `oxarticles` ADD COLUMN `R3DURL`
                  varchar(1024) NOT NULL DEFAULT '' COMMENT 'Rooom URL';
             ");
         }
          if (!$customerTable->hasColumn('R3DIMAGE')) {
-            $this->addSql("ALTER TABLE `oxuser` ADD COLUMN `R3DIMAGE`
+            $this->addSql("ALTER TABLE `oxarticles` ADD COLUMN `R3DIMAGE`
                  varchar(1024) NOT NULL DEFAULT '' COMMENT 'Rooom thumb nail';
             ");
         }

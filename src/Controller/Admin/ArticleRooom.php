@@ -36,7 +36,7 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
         if (isset($soxId) && $soxId != "-1") {
             // load object
             $oArticle->load($soxId);
-            $oArticle = $this->updateArticle($oArticle);
+            
 
             // variant handling
             if ($oArticle->oxarticles__oxparentid->value) {
@@ -46,8 +46,6 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
                 $this->_aViewData["oxparentid"] = $oArticle->oxarticles__oxparentid->value;
             }
         }
-
-        $this->_aViewData["iPicCount"] = Registry::getConfig()->getConfigParam('iPicCount');
 
         if ($this->getViewConfig()->isAltImageServerConfigured()) {
             $config = Registry::getConfig();
@@ -59,7 +57,7 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
             }
         }
 
-        return "article_pictures";
+        return "@r3d_rooomintegrationmodule/admin/tpl/article_rooom";
     }
 
     /**
@@ -69,127 +67,44 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
      */
     public function save()
     {
-        $myConfig = Registry::getConfig();
-
-        if ($myConfig->isDemoShop()) {
-            // disabling uploading pictures if this is demo shop
-            $oEx = oxNew(\OxidEsales\Eshop\Core\Exception\ExceptionToDisplay::class);
-            $oEx->setMessage('ARTICLE_PICTURES_UPLOADISDISABLED');
-            Registry::getUtilsView()->addErrorToDisplay($oEx, false);
-
-            return;
-        }
-
+    
+        $logger = Registry::getLogger();
+        $editvalues = Registry::getRequest()->getRequestEscapedParameter("editval");
         parent::save();
 
         $oArticle = oxNew(\OxidEsales\Eshop\Application\Model\Article::class);
+       
+         $aFiles = $aFiles ? $aFiles : $_FILES;
+         
+         
+         
+         
+         if (isset($aFiles['r3dimagefile']['name'])&& strlen( trim($aFiles['r3dimagefile']['name'])) > 0) {
+         
+		 try {    
+			 Registry::getUtilsFile()-> processFile('r3dimagefile', 'r3dimagefiles/'.$editvalues['article__oxid']);
+			 $editvalues['oxarticles__r3dimage']=$aFiles['r3dimagefile']['name'];
+			 
+			 
+		 }//catch exception thrown by processFile only
+		 catch(\OxidEsales\Eshop\Core\Exception\StandardException $e) {
+	 
+		   $oEx = oxNew(\OxidEsales\Eshop\Core\Exception\ExceptionToDisplay::class);
+	  
+		   $oEx->setMessage($e->getMessage());
+	 
+		   Registry::getUtilsView()->addErrorToDisplay($oEx, false);
+		   return;
+		 }
+         }
+        
         if ($oArticle->load($this->getEditObjectId())) {
-            $oArticle->assign(Registry::getRequest()->getRequestEscapedParameter("editval"));
-            Registry::getUtilsFile()->processFiles($oArticle);
-
-            // Show that no new image added
-            if (Registry::getUtilsFile()->getNewFilesCounter() == 0) {
-                $oEx = oxNew(\OxidEsales\Eshop\Core\Exception\ExceptionToDisplay::class);
-                $oEx->setMessage('NO_PICTURES_CHANGES');
-                Registry::getUtilsView()->addErrorToDisplay($oEx, false);
-            }
-
-            $oArticle->save();
-        }
-    }
-
-    /**
-     * Deletes selected master picture and all other master pictures
-     * where master picture index is higher than currently deleted index.
-     * Also deletes custom icon and thumbnail.
-     *
-     * @return null
-     */
-    public function deletePicture()
-    {
-        $myConfig = Registry::getConfig();
-
-        if ($myConfig->isDemoShop()) {
-            // disabling uploading pictures if this is demo shop
-            $oEx = oxNew(\OxidEsales\Eshop\Core\Exception\ExceptionToDisplay::class);
-            $oEx->setMessage('ARTICLE_PICTURES_UPLOADISDISABLED');
-            Registry::getUtilsView()->addErrorToDisplay($oEx, false);
-
-            return;
-        }
-
-        $sOxId = $this->getEditObjectId();
-        $iIndex = Registry::getRequest()->getRequestEscapedParameter("masterPicIndex");
-
-        $oArticle = oxNew(\OxidEsales\Eshop\Application\Model\Article::class);
-        $oArticle->load($sOxId);
-
-        if ($iIndex == "ICO") {
-            // deleting main icon
-            $this->deleteMainIcon($oArticle);
-        } elseif ($iIndex == "TH") {
-            // deleting thumbnail
-            $this->deleteThumbnail($oArticle);
-        } else {
-            $iIndex = (int) $iIndex;
-            if ($iIndex > 0) {
-                // deleting master picture
-                $this->resetMasterPicture($oArticle, $iIndex, true);
-            }
-        }
-
+        $oArticle->assign($editvalues);
         $oArticle->save();
-    }
-
-    /**
-     * Deletes selected master picture and all pictures generated
-     * from master picture
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle       article object
-     * @param int                                         $iIndex         master picture index
-     * @param bool                                        $blDeleteMaster if TRUE - deletes and unsets master image file
-     */
-    protected function resetMasterPicture($oArticle, $iIndex, $blDeleteMaster = false)
-    {
-        if ($this->canResetMasterPicture($oArticle, $iIndex)) {
-            if (!$oArticle->isDerived()) {
-                $oPicHandler = Registry::getPictureHandler();
-                $oPicHandler->deleteArticleMasterPicture($oArticle, $iIndex, $blDeleteMaster);
-            }
-
-            if ($blDeleteMaster) {
-                //reseting master picture field
-                $oArticle->{"oxarticles__oxpic" . $iIndex} = new \OxidEsales\Eshop\Core\Field();
-            }
-
-            // cleaning oxzoom fields
-            if (isset($oArticle->{"oxarticles__oxzoom" . $iIndex})) {
-                $oArticle->{"oxarticles__oxzoom" . $iIndex} = new \OxidEsales\Eshop\Core\Field();
-            }
-
-            if ($iIndex == 1) {
-                $this->cleanupCustomFields($oArticle);
-            }
         }
     }
 
-    /**
-     * Deletes main icon file
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle article object
-     */
-    protected function deleteMainIcon($oArticle)
-    {
-        if ($this->canDeleteMainIcon($oArticle)) {
-            if (!$oArticle->isDerived()) {
-                $oPicHandler = Registry::getPictureHandler();
-                $oPicHandler->deleteMainIcon($oArticle);
-            }
-
-            //reseting field
-            $oArticle->oxarticles__oxicon = new \OxidEsales\Eshop\Core\Field();
-        }
-    }
+   
 
     /**
      * Deletes thumbnail file
@@ -209,63 +124,9 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
         }
     }
 
-    /**
-     * Cleans up article custom fields oxicon and oxthumb. If there is custom
-     * icon or thumb picture, leaves records untouched.
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle article object
-     */
-    protected function cleanupCustomFields($oArticle)
-    {
-        $sIcon = $oArticle->oxarticles__oxicon->value;
-        $sThumb = $oArticle->oxarticles__oxthumb->value;
+   
 
-        if ($sIcon == "nopic.jpg") {
-            $oArticle->oxarticles__oxicon = new \OxidEsales\Eshop\Core\Field();
-        }
-
-        if ($sThumb == "nopic.jpg") {
-            $oArticle->oxarticles__oxthumb = new \OxidEsales\Eshop\Core\Field();
-        }
-    }
-
-    /**
-     * Method is used for overloading to update article object.
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle
-     *
-     * @return \OxidEsales\Eshop\Application\Model\Article
-     */
-    protected function updateArticle($oArticle)
-    {
-        return $oArticle;
-    }
-
-    /**
-     * Checks if possible to reset master picture.
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle
-     * @param int                                         $masterPictureIndex
-     *
-     * @return bool
-     */
-    protected function canResetMasterPicture($oArticle, $masterPictureIndex)
-    {
-        return (bool) $oArticle->{"oxarticles__oxpic" . $masterPictureIndex}->value;
-    }
-
-    /**
-     * Checks if possible to delete main icon of article.
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $oArticle
-     *
-     * @return bool
-     */
-    protected function canDeleteMainIcon($oArticle)
-    {
-        return (bool) $oArticle->oxarticles__oxicon->value;
-    }
-
+   
     /**
      * Checks if possible to delete thumbnail of article.
      *

@@ -1,5 +1,5 @@
 {
-    "name": "SmartCommerceSE/rooomintegration",
+    "name": "r3d/rooomintegrationmodule",
     "description": "",
     "type": "oxideshop-module",
     "keywords": [
@@ -29,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SmartCommerceSE\\RooomIntegration\\": "src/",
+            "SmartCommerceSE\\RooomIntegration\\": "src/"
            
         }
     },

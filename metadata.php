@@ -26,10 +26,7 @@ $aModule = [
     'controllers' => [
               'article_rooom'=> ArticleRooom::class
               ],
-     'templates'  => [
-              'article_rooom.html.twig','r3d/rooomintegrationmodule/views/admin/tpl/article_rooom.html.twig' 
-              ],
-    'settings' => [
+     'settings' => [
         [
             'group' => 'rooom-configuration',
             'name' => 'RooomDefaultImage',
