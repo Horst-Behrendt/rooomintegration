@@ -82,7 +82,7 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
          if (isset($aFiles['r3dimagefile']['name'])&& strlen( trim($aFiles['r3dimagefile']['name'])) > 0) {
          
 		 try {    
-			 Registry::getUtilsFile()-> processFile('r3dimagefile', 'r3dimagefiles/'.$editvalues['article__oxid']);
+			 Registry::getUtilsFile()-> processFile('r3dimagefile', 'out/pictures/r3dimagefiles/'.$editvalues['article__oxid']);
 			 $editvalues['oxarticles__r3dimage']=$aFiles['r3dimagefile']['name'];
 			 
 			 
