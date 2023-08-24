@@ -63,10 +63,27 @@ function editThis(sID)
 
       <tr>
         <td class="picPreviewCol" valign="top">
-            {% set sThumbUrl = edit.getThumbnailUrl() %}
-
-            <div class="picPreview">{% if sThumbUrl %}<img src="{{ sThumbUrl|raw }}">{% endif %}</div>
+         
+            <div class="picPreview">
+            
+                    {%  if edit.oxarticles__r3dimage.value|length == 0 %}
+                                 <img src="/modules/r3d/rooomintegrationmodule/images/rooom.jpeg" alt="Rooom 3D" style="max-width: 300px; max-height: 300px;" >
+                    {% else %}
+                          {%  if edit.oxarticles__r3dimage.value starts with 'http' %}
+		      		<img src="{{edit.oxarticles__r3dimage.value }}" alt="Rooom 3D" style="max-width: 300px; max-height: 300px;" >
+			  {% else %}
+		   		<img src="/out/pictures/r3dimagefiles/{{ edit.oxarticles__oxid.value }}/{{edit.oxarticles__r3dimage.value }}" alt="Rooom 3D" style="max-width: 300px; max-height: 300px;"  >
+		 	  {% endif %}
+		    {% endif %}   </div>
             <div class="picDescr">{{ translate({ ident: "GENERAL_THUMB" }) }}</div>
+            {% if edit.oxarticles__r3durl.value|length >0 %}
+            <div class="picPreview"><iframe 
+		src="{{edit.oxarticles__r3durl.value }}" style="width: 360px; height: 345px;" 
+		style="border:50;border-width:0;"
+		allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" 
+	        mozallowfullscreen="false"  webkitallowfullscreen="false"
+	></iframe></div>
+             {% endif %} 
          </td>
 
         <td class="picEditCol">
