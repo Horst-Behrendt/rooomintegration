@@ -84,7 +84,7 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
 		 try {    
 			 Registry::getUtilsFile()-> processFile('r3dimagefile', 'out/pictures/r3dimagefiles/'.$editvalues['article__oxid']);
 			 $editvalues['oxarticles__r3dimage']=$aFiles['r3dimagefile']['name'];
-			 
+ 			 $this->makeReadable(Registry::getConfig()->getConfigParam('sShopDir'),'out/pictures/r3dimagefiles/'.$editvalues['article__oxid']);
 			 
 		 }//catch exception thrown by processFile only
 		 catch(\OxidEsales\Eshop\Core\Exception\StandardException $e) {
@@ -104,7 +104,17 @@ class ArticleRooom extends \OxidEsales\Eshop\Application\Controller\Admin\AdminD
         }
     }
 
-   
+    protected function makeReadable($sBase,$sTarget)
+    {   $sPath=$sBase;
+        $aElememts = explode("/", $sTarget);
+         $logger = Registry::getLogger();
+        foreach($aElememts as $sElement){
+        $logger->error("path" . $sPath);
+        $sPath .= "/".$sElement;
+        @chmod($sPath, 0775);
+       
+        }
+    }
 
     /**
      * Deletes thumbnail file

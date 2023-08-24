@@ -25,14 +25,5 @@ $aModule = [
     'email'       => 'info@smartcommerce.de',
     'controllers' => [
               'article_rooom'=> ArticleRooom::class
-              ],
-     'settings' => [
-        [
-            'group' => 'rooom-configuration',
-            'name' => 'RooomDefaultImage',
-            'type' => 'str',
-            'value' => '',
-            ],
-         ],
- 
+              ]
 ];
