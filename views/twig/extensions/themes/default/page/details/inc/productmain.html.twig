@@ -9,7 +9,7 @@
   {% set aPictureInfo = oViewConf.getViewThemeParam("sIconsize")|split("*") %}
                   <div style="display:inline">
                     <p id="r3dImage" href="javascript:void(0)"  onclick="rooomShow()">
-                     {%  if edit.oxarticles__r3dimage.value|length == 0 %}
+                     {%  if oPictureProduct.oxarticles__r3dimage.value|length == 0 %}
                                  <img src="/modules/r3d/rooomintegrationmodule/images/rooom.jpeg" alt="Rooom 3D" style="max-width: {{ aPictureInfo.0/2 }}px; max-height: {{ aPictureInfo.1/2}}px;">
                        {% else %}           
  		          {%  if oPictureProduct.oxarticles__r3dimage.value starts with 'http' %}

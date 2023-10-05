@@ -52,14 +52,14 @@ installation for development process:
 1. Clone this repository to your local shop modules directory:
    ```
    cd <shopRoot>
-   git clone <thisGithubRepositoryUrl> source/modules/r3d/roomintegrationmodule --branch=b-7.0.x
+   git clone <thisGithubRepositoryUrl> source/modules/r3d/rooomintegrationmodule --branch=b-7.0.x
    ```
 
 2. At this point you have a working module as a starting point to implement whatever you 
    want to extend in your OXID eShop. Initialize and activate the module:
    ```
    cd <shopRoot>
-   bin/oe-console oe:module:install vendor/r3d/roomintegrationmodule
+   bin/oe-console oe:module:install source/modules/r3d/rooomintegrationmodule
    bin/oe-console oe:module:activate r3d_rooomintegrationmodule 
    ```
 
@@ -123,21 +123,32 @@ Migrations have to be run via console command (`./vendor/bin/oe-console` if shop
 For more information, check the [developer documentation](https://docs.oxid-esales.com/developer/en/latest/development/tell_me_about/migrations.html).
 
 
-### Where the module namespace points to
-As already mentioned above, in the 7.x versions of OXID eShop, the module code only resides in the vendor directory so the
-namespace needs to point there. In our case this looks like
+### in Source composer.json
+Add the following snippets at the respective places
 
 ```bash
-   "autoload": {
-        "psr-4": {
-            "OxidEsales\\ModuleTemplate\\": "src/",
-            "OxidEsales\\ModuleTemplate\\Tests\\": "tests/"
+   "require": {
+   ...
+       "r3d/rooomintegrationmodule": "*"
         }
     },
+    "autoload": {
+        "psr-4": {
+            ...
+            "SmartCommerceSE\\RooomIntegration\\":"./source"
+        },
+    "repositories": {
+    ...
+     "r3d/rooomintegrationmodule": {
+            "type": "path",
+            "url": "./source/modules/r3d/rooomintegrationmodule",
+            "options": {
+                "symlink": true
+            }
+        },
+        ...
+       }
 ```
-
-
-
 
 ### Integration/Acceptance tests
 
